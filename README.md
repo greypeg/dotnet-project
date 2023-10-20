@@ -2,9 +2,13 @@
 
 ## How to run it
 
-You need to clone the project using git clone and then create a MySQL database. 
+1)You need to clone the project using git clone and then create a MySQL database. 
 
-Then simply enter the database connection string to the "DefaultConnection" field that is located at appsettings.json file.
+2)Enter the database connection string to the "DefaultConnection" field that is located at appsettings.json file.
+
+3)Open a terminal inside the project folder and run the command: dotnet ef database update
+
+4)Run the application with the command: dotnet watch run
 
 ## Features implemented 
 • Provide a CRUD Project API. A project will contain a title, description, name, progress
