@@ -76,6 +76,8 @@ namespace dotnet_project.Services.TaskServices
                 task.Progress = updatedTask.Progress;
                 task.FinishDate = updatedTask.FinishDate;
                 task.StartDate = updatedTask.StartDate;
+                task.ParentProjectId = updatedTask.ParentProjectId;
+                task.Status = updatedTask.Status;
 
                 await _context.SaveChangesAsync();
                 var dbTasksUpdated = await _context.DbTasks.ToListAsync();

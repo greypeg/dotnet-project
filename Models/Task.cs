@@ -15,7 +15,7 @@ namespace dotnet_project.Models
 
         [Range(1, 100, ErrorMessage = "Progress must be between 0 and 100")]
         public int Progress { get; set; } = 0;
-        public string Status { get; set; }
+        public StatusClass Status { get; set; } = StatusClass.TODO;
         public string FinishDate { get; set; }
         public string StartDate { get; set; }
         public int ParentProjectId { get; set; }

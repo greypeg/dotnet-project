@@ -12,7 +12,7 @@ namespace dotnet_project.Dtos.Task
         public string Title { get; set; }
         public string Description { get; set; }
         public int Progress { get; set; } = 0;
-        public string Status { get; set; }
+        public StatusClass Status { get; set; } = StatusClass.TODO;
         public string FinishDate { get; set; }
         public string StartDate { get; set; }
         public int ParentProjectId { get; set; }
