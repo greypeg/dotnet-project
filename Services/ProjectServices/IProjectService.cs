@@ -10,7 +10,7 @@ namespace dotnet_project.Services.ProjectServices
     {
         Task<ServiceResponse<List<GetProjectDto>>> GetAll();
 
-        Task<ServiceResponse<GetProjectDto>> GetProjectById(int id);
+        Task<ServiceResponse<GetProjectByIdDto>> GetProjectById(int id);
 
         Task<ServiceResponse<List<GetProjectDto>>> AddProject(AddProjectDto project);
 

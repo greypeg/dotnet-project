@@ -11,6 +11,7 @@ namespace dotnet_project
         public AutoMapperProfile()
         {
             CreateMap<Project, GetProjectDto>();
+            CreateMap<Project, GetProjectByIdDto>();
             CreateMap<AddProjectDto, Project>();
             CreateMap<UpdateProjectDto, Project>();
             CreateMap<MyTask, GetTaskDto>();

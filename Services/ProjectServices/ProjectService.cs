@@ -31,15 +31,19 @@ namespace dotnet_project.Services.ProjectServices
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetProjectDto>> GetProjectById(int id)
+        public async Task<ServiceResponse<GetProjectByIdDto>> GetProjectById(int id)
         {
-            var serviceResponse = new ServiceResponse<GetProjectDto>();
+            var serviceResponse = new ServiceResponse<GetProjectByIdDto>();
             try
             {
                 var dbProject = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id);
+                var dbTasks = await _context.DbTasks.ToListAsync();
                 if (dbProject is null)
                     throw new Exception($"Project with Id '{id}' not found.");
-                serviceResponse.Data = _mapper.Map<GetProjectDto>(dbProject);
+
+                serviceResponse.Data = _mapper.Map<GetProjectByIdDto>(dbProject);
+                serviceResponse.Data.Tasks = dbTasks.FindAll(t => t.ParentProjectId == dbProject.Id);
+
             }
             catch (Exception e)
             {

@@ -14,6 +14,6 @@ namespace dotnet_project.Dtos.Task
         public string Status { get; set; }
         public string FinishDate { get; set; }
         public string StartDate { get; set; }
-        public int ParentProject { get; set; }
+        public int ParentProjectId { get; set; }
     }
 }

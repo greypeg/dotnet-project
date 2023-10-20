@@ -28,7 +28,7 @@ namespace dotnet_project.Controllers
 
         //declare parameter id
         [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<GetProjectDto>>> GetSingle(int id)
+        public async Task<ActionResult<ServiceResponse<GetProjectByIdDto>>> GetSingle(int id)
         {
             var response = await _projectService.GetProjectById(id);
 
