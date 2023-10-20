@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnet_project.Dtos.Project;
 using dotnet_project.Models;
+using dotnet_project.Services.ProjectServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_project.Controllers
@@ -11,28 +13,58 @@ namespace dotnet_project.Controllers
     [Route("api/[controller]")]
     public class ProjectController : ControllerBase
     {
-        private static List<Project> projects = new List<Project> {
-            new Project()
-        };
+        //inject project service
+        private readonly IProjectService _projectService;
+        public ProjectController(IProjectService projectService)
+        {
+            _projectService = projectService;
+        }
 
         [HttpGet("GetAll")]
-        public ActionResult<List<Project>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetProjectDto>>>> Get()
         {
-            return Ok(projects);
+            return Ok(await _projectService.GetAll());
         }
 
         //declare parameter id
         [HttpGet("{id}")]
-        public ActionResult<Project> GetSingle(int id)
+        public async Task<ActionResult<ServiceResponse<GetProjectDto>>> GetSingle(int id)
         {
-            return Ok(projects.FirstOrDefault(p => p.Id == id));
+            var response = await _projectService.GetProjectById(id);
+
+            if (response.Data is null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpPost]
-        public ActionResult<List<Project>> AddProject(Project project)
+        public async Task<ActionResult<ServiceResponse<List<AddProjectDto>>>> AddProject(AddProjectDto project)
         {
-            projects.Add(project);
-            return Ok(projects);
+            return Ok(await _projectService.AddProject(project));
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<GetProjectDto>>> UpdateProject(UpdateProjectDto updatedProject)
+        {
+            var response = await _projectService.UpdateProject(updatedProject);
+            if (response.Data is null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+        
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<GetProjectDto>>> DeleteProject(int id)
+        {
+            var response = await _projectService.DeleteProject(id);
+            if (response.Data is null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
     }
 }
