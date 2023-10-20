@@ -14,5 +14,6 @@ namespace dotnet_project.Data
         }
 
         public DbSet<Project> Projects => Set<Project>();
+        public DbSet<MyTask> DbTasks => Set<MyTask>();
     }
 }

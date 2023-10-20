@@ -37,15 +37,15 @@ namespace dotnet_project.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<AddTaskDto>>>> AddProject(AddTaskDto project)
+        public async Task<ActionResult<ServiceResponse<List<AddTaskDto>>>> AddPTask(AddTaskDto task)
         {
-            return Ok(await _taskService.AddTask(project));
+            return Ok(await _taskService.AddTask(task));
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<GetTaskDto>>> UpdateProject(UpdateTaskDto updatedProject)
+        public async Task<ActionResult<ServiceResponse<GetTaskDto>>> UpdateTask(UpdateTaskDto updatedTask)
         {
-            var response = await _taskService.UpdateTask(updatedProject);
+            var response = await _taskService.UpdateTask(updatedTask);
             if (response.Data is null)
             {
                 return NotFound(response);
@@ -54,7 +54,7 @@ namespace dotnet_project.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<GetTaskDto>>> DeleteProject(int id)
+        public async Task<ActionResult<ServiceResponse<GetTaskDto>>> DeleteTask(int id)
         {
             var response = await _taskService.DeleteTask(id);
             if (response.Data is null)

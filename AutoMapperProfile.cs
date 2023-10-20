@@ -13,6 +13,9 @@ namespace dotnet_project
             CreateMap<Project, GetProjectDto>();
             CreateMap<AddProjectDto, Project>();
             CreateMap<UpdateProjectDto, Project>();
+            CreateMap<MyTask, GetTaskDto>();
+            CreateMap<AddTaskDto, MyTask>();
+            CreateMap<UpdateTaskDto, MyTask>();
         }
     }
 }

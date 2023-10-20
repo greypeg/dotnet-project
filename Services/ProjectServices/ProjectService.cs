@@ -52,9 +52,9 @@ namespace dotnet_project.Services.ProjectServices
         public async Task<ServiceResponse<List<GetProjectDto>>> AddProject(AddProjectDto newProject)
         {
             var dbProjects = await _context.Projects.ToListAsync();
+
             var serviceResponse = new ServiceResponse<List<GetProjectDto>>();
             var project = _mapper.Map<Project>(newProject);
-            project.Id = dbProjects.Max(c => c.Id) + 1;
             _context.Projects.Add(project);
             await _context.SaveChangesAsync();
             var dbProjectsUpdated = await _context.Projects.ToListAsync();
@@ -81,7 +81,7 @@ namespace dotnet_project.Services.ProjectServices
                 project.Progress = updatedProject.Progress;
                 project.FinishDate = updatedProject.FinishDate;
                 project.StartDate = updatedProject.StartDate;
-                
+
                 await _context.SaveChangesAsync();
                 var dbProjectsUpdated = await _context.Projects.ToListAsync();
                 serviceResponse.Data = _mapper.Map<GetProjectDto>(project);
