@@ -1,7 +1,9 @@
 global using dotnet_project.Models;
 global using dotnet_project.Services.ProjectServices;
 global using Microsoft.EntityFrameworkCore;
+global using dotnet_project.Dtos.Task;
 global using dotnet_project.Data;
+global using dotnet_project.Services.TaskServices;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<ITaskServices, TaskServices>();
 
 var app = builder.Build();
 

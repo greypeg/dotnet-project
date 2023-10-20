@@ -51,11 +51,14 @@ namespace dotnet_project.Services.ProjectServices
 
         public async Task<ServiceResponse<List<GetProjectDto>>> AddProject(AddProjectDto newProject)
         {
+            var dbProjects = await _context.Projects.ToListAsync();
             var serviceResponse = new ServiceResponse<List<GetProjectDto>>();
             var project = _mapper.Map<Project>(newProject);
-            project.Id = projects.Max(c => c.Id) + 1;
-            projects.Add(project);
-            serviceResponse.Data = projects.Select(p => _mapper.Map<GetProjectDto>(p)).ToList();
+            project.Id = dbProjects.Max(c => c.Id) + 1;
+            _context.Projects.Add(project);
+            await _context.SaveChangesAsync();
+            var dbProjectsUpdated = await _context.Projects.ToListAsync();
+            serviceResponse.Data = dbProjectsUpdated.Select(p => _mapper.Map<GetProjectDto>(p)).ToList();
             return serviceResponse;
         }
 
@@ -64,7 +67,7 @@ namespace dotnet_project.Services.ProjectServices
             var serviceResponse = new ServiceResponse<GetProjectDto>();
             try
             {
-                var project = projects.FirstOrDefault(p => p.Id == updatedProject.Id);
+                var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == updatedProject.Id);
                 if (project is null)
                     throw new Exception($"Project with Id '{updatedProject.Id}' not found.");
 
@@ -78,7 +81,9 @@ namespace dotnet_project.Services.ProjectServices
                 project.Progress = updatedProject.Progress;
                 project.FinishDate = updatedProject.FinishDate;
                 project.StartDate = updatedProject.StartDate;
-
+                
+                await _context.SaveChangesAsync();
+                var dbProjectsUpdated = await _context.Projects.ToListAsync();
                 serviceResponse.Data = _mapper.Map<GetProjectDto>(project);
             }
             catch (Exception e)
@@ -94,13 +99,14 @@ namespace dotnet_project.Services.ProjectServices
             var serviceResponse = new ServiceResponse<List<GetProjectDto>>();
             try
             {
-                var project = projects.FirstOrDefault(p => p.Id == id);
+                var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id);
                 if (project is null)
                     throw new Exception($"Project with Id '{id}' not found.");
 
-                projects.Remove(project);
-
-                serviceResponse.Data = projects.Select(p => _mapper.Map<GetProjectDto>(p)).ToList();
+                _context.Projects.Remove(project);
+                await _context.SaveChangesAsync();
+                var dbProjectsUpdated = await _context.Projects.ToListAsync();
+                serviceResponse.Data = dbProjectsUpdated.Select(p => _mapper.Map<GetProjectDto>(p)).ToList();
             }
             catch (Exception e)
             {

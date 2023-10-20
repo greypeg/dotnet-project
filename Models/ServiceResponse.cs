@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace dotnet_project.Models
 {
+
+    //generic type service response
     public class ServiceResponse<T>
     {
         public T? Data { get; set; }
